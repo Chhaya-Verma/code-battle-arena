@@ -38,6 +38,10 @@ class AuthRepository {
 
   return user;
 }
+async findById(id: string): Promise<IUser | null> {
+  return await User.findById(id);
+}
+
 }
 
 

@@ -28,6 +28,26 @@ class AuthController {
       });
     }
   }
-}
+  async getCurrentUser(req: Request, res: Response) {
+  try {
+    const userId = req.user?.userId;
 
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const result = await authService.getCurrentUser(userId);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+}
+}
 export default new AuthController();

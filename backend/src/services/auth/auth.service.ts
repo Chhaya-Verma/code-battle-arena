@@ -43,6 +43,25 @@ class AuthService {
 };
 
   }
+async getCurrentUser(userId: string) {
+  const user = await authRepository.findById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return {
+    success: true,
+    user: {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      role: user.role,
+    },
+  };
+}
+
 }
 
 export default new AuthService();
