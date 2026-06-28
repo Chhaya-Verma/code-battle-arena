@@ -2,10 +2,12 @@
 
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
-import { googleLogin } from "@/services/auth.service";
+import authService from "@/services/auth.service";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function GoogleLoginButton() {
   const router = useRouter();
+  const { login } = useAuth();
 
   return (
     <GoogleLogin
@@ -16,10 +18,10 @@ export default function GoogleLoginButton() {
             return;
           }
 
-          const data = await googleLogin(credentialResponse.credential);
+          const data = await authService.googleLogin(credentialResponse.credential);
 
           localStorage.setItem("token", data.token);
-
+          await login();
           console.log("Login Success:", data);
 
           router.push("/dashboard");
